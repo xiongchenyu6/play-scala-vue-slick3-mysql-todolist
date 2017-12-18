@@ -7,19 +7,23 @@
       <div class="col-md-6">
         <div class="todolist not-done">
           <h1>Project List</h1>
-          <input type="text" class="form-control add-todo" placeholder="Add todo">
-          <button id="checkAll" class="btn btn-success">Add new project</button>
-
+            <input id="project" type="text" class="form-control add-todo" placeholder="Add todo">
+            <button onclick="create()" type="button" class="btn btn-success">Add new project</button>
           <hr>
           <ul id="sortable" class="list-unstyled">
-              @for(project <- projects){
-                <li class="ui-state-default">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value="" />@project</label>
-                  </div>
-                </li>
-              }
+          @for(project <- projects){
+            <li class="ui-state-default">
+              <div class="checkbox">
+                <input id="name@project.id" type="text" value="@project.name" />
+                <select id="status@project.id" value="@project.status">
+                  <option @if(project.status == "ready"){selected} value="ready">ready</option>
+                  <option @if(project.status == "set"){selected} value="set">set</option>
+                  <option @if(project.status == "go"){selected} value="go">go</option>
+                </select>
+                  <button onclick="update(@project.id)">Update</button>
+              </div>
+            </li>
+          }
           </ul>
           <div class="todo-footer">
             <strong><span class="count-todos"></span></strong> Items Left
