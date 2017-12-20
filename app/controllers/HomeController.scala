@@ -1,22 +1,21 @@
 package controllers
 
 import javax.inject._
-
 import models.{ProjectRepo, TaskRepo}
+import play.api.data.Form
+import play.api.data.Forms._
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.json.JsValue
 import play.api.mvc._
 import slick.jdbc.JdbcProfile
 import tables.Tables._
-import play.filters.csrf._
-
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 /**
   * This controller creates an `Action` to handle HTTP requests to the
   * application's home page.
   */
 @Singleton
-class HomeController @Inject()(implicit ec: ExecutionContext ,protected val dbConfigProvider: DatabaseConfigProvider, projectRepo: ProjectRepo, taskRepo: TaskRepo, cc: ControllerComponents) extends AbstractController(cc) with HasDatabaseConfigProvider[JdbcProfile
+class HomeController @Inject()(implicit ec: ExecutionContext ,protected val dbConfigProvider: DatabaseConfigProvider, projectRepo: ProjectRepo, taskRepo: TaskRepo, cc: MessagesControllerComponents) extends MessagesAbstractController (cc) with HasDatabaseConfigProvider[JdbcProfile
   ] {
 
   import dbConfig.profile.api._
@@ -27,36 +26,42 @@ class HomeController @Inject()(implicit ec: ExecutionContext ,protected val dbCo
     * will be called when the application receives a `GET` request with
     * a path of `/`.
     */
-  def index() = Action.async { implicit request: Request[AnyContent] =>
+  val projectForm: Form[CreateProjectForm] = Form {
+    mapping(
+      "name" -> nonEmptyText
+    )(CreateProjectForm.apply)(CreateProjectForm.unapply)
+  }
 
-    val allProjectSql = Project.result;
-
-    db.run(allProjectSql).map {projects =>
-      Ok(views.html.index(projects))
+  def indexPageRender(form:Form[CreateProjectForm] = projectForm)(implicit request: MessagesRequestHeader) = {
+    projectRepo.all().map {projects =>
+      Ok(views.html.index(projectForm,projects))
     }
       .recover{
         case e: Exception =>
           Ok(e.toString)
       }
-    //    taskRepo.taskByGroupId(1L).map {data =>
-    //      Ok(views.html.index(data(0).id,data(0).name))
-    //    }.recover {
-    //      case e: Exception =>
-    //        Ok(e.toString)
-    //    }
   }
-  def createProject() = Action.async(parse.json) { implicit request: Request[JsValue] =>
 
-      val name = (request.body \ "project").as[String]
-      val projectSql = Project += ProjectRow(0, name, "ready")
-      db.run(projectSql).map { data =>
-        Ok("success")
-      }
-        .recover {
-          case e: Exception =>
-            Ok(e.toString)
+  def index() = Action.async { implicit request: MessagesRequest[AnyContent] =>
+    indexPageRender(projectForm)
+  }
+  def createProject() = Action.async { implicit request: MessagesRequest[AnyContent] =>
+
+    projectForm.bindFromRequest.fold(
+      errorForm =>{
+        indexPageRender(errorForm)
+      },
+      project => {
+        val projectSql = Project += ProjectRow(0, project.name, "ready")
+        db.run(projectSql).flatMap { data =>
+          indexPageRender(projectForm)
         }
-    }
+            .recover {
+              case e: Exception =>
+                Ok(e.toString)
+            }
+      })
+  }
 
   def updateProject() = Action.async(parse.json) {implicit request: Request[JsValue] =>
     val id = (request.body \ "id").as[Long]
@@ -76,8 +81,8 @@ class HomeController @Inject()(implicit ec: ExecutionContext ,protected val dbCo
   def generateTable() = Action { implicit request: Request[AnyContent] =>
 
     val slickDriver = "slick.jdbc.MySQLProfile"   // -- ①
-    val jdbcDriver = "com.mysql.cj.jdbc.Driver"          // -- ②
-    val url =                                         // -- ③
+  val jdbcDriver = "com.mysql.cj.jdbc.Driver"          // -- ②
+  val url =                                         // -- ③
     """jdbc:mysql://127.0.0.1:3306/todo?useSSL=false&nullNamePatternMatchesAll=true""".stripMargin
     val user = "root"
     val password = " "
@@ -98,3 +103,5 @@ class HomeController @Inject()(implicit ec: ExecutionContext ,protected val dbCo
     Ok("success")
   }
 }
+
+case class CreateProjectForm(name: String)

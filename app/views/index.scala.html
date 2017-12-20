@@ -1,5 +1,5 @@
 @import tables.Tables
-@(projects:Seq[Tables.ProjectRow])
+@(project: Form[CreateProjectForm],projects:Seq[Tables.ProjectRow])(implicit requst: MessagesRequestHeader)
 
 @main("Welcome to Play") {
   <div class="container">
@@ -7,9 +7,12 @@
       <div class="col-md-6">
         <div class="todolist not-done">
           <h1>Project List</h1>
-            <input id="project" type="text" class="form-control add-todo" placeholder="Add todo">
-            <button onclick="create()" type="button" class="btn btn-success">Add new project</button>
           <hr>
+          @helper.form(action = routes.HomeController.createProject()) {
+            @helper.CSRF.formField
+            @helper.inputText(project("name"),'class -> "form-control add-todo")
+              <input type="submit" class="btn btn-success" value="Add new project"/>
+          }
           <ul id="sortable" class="list-unstyled">
           @for(project <- projects){
             <li class="ui-state-default">
