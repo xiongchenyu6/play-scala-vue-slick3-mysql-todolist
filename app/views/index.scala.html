@@ -1,48 +1,50 @@
 @import tables.Tables
 @(project: Form[CreateProjectForm],projects:Seq[Tables.ProjectRow])(implicit requst: MessagesRequestHeader)
 
-@main("Welcome to Play") {
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="todolist not-done">
-          <h1>Project List</h1>
-          <hr>
-          @helper.form(action = routes.HomeController.createProject()) {
-            @helper.CSRF.formField
-            @helper.inputText(project("name"),'class -> "form-control add-todo")
+  @main("Welcome to Play") {
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="todolist not-done">
+            <h1>Project List</h1>
+            <hr>
+            @helper.form(action = routes.HomeController.createProject()) {
+              @helper.CSRF.formField
+              @helper.inputText(project("name"),'class -> "form-control add-todo")
               <input type="submit" class="btn btn-success" value="Add new project"/>
-          }
-          <ul id="sortable" class="list-unstyled">
-          @for(project <- projects){
-            <li class="ui-state-default">
-              <div class="checkbox">
-                <input id="name@project.id" type="text" value="@project.name" />
-                <select id="status@project.id" value="@project.status">
-                  <option @if(project.status == "ready"){selected} value="ready">ready</option>
-                  <option @if(project.status == "set"){selected} value="set">set</option>
-                  <option @if(project.status == "go"){selected} value="go">go</option>
-                </select>
+            }
+            <ul id="sortable" class="list-unstyled">
+            @for(project <- projects){
+              <li class="ui-state-default">
+                <div class="checkbox">
+                  <input id="name@project.id" type="text" value="@project.name" />
+                  <select id="status@project.id" value="@project.status">
+                    <option @if(project.status == "ready"){selected} value="ready">ready</option>
+                    <option @if(project.status == "set"){selected} value="set">set</option>
+                    <option @if(project.status == "go"){selected} value="go">go</option>
+                  </select>
                   <button onclick="update(@project.id)">Update</button>
-              </div>
-            </li>
-          }
-          </ul>
-          <div class="todo-footer">
-            <strong><span class="count-todos"></span></strong> Items Left
+                </div>
+              </li>
+            }
+            </ul>
+            <div class="todo-footer">
+              <strong><span class="count-todos"></span></strong> Items Left
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="todolist">
+            <h1>Already Done</h1>
+            <ul id="done-items" class="list-unstyled">
+              <li>Some item <button class="remove-item btn btn-default btn-xs pull-right">
+                <span class="glyphicon glyphicon-remove">
+                </span>
+              </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="todolist">
-          <h1>Already Done</h1>
-          <ul id="done-items" class="list-unstyled">
-            <li>Some item <button class="remove-item btn btn-default btn-xs pull-right">
-              <span class="glyphicon glyphicon-remove">
-              </span></button></li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
-}
+  }
