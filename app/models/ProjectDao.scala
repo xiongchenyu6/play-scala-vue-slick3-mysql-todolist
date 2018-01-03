@@ -1,15 +1,11 @@
 package models
 import javax.inject.Inject
 
-import play.api.data.Form
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
-import slick._
-import slick.dbio.Effect.Read
 import slick.jdbc.JdbcProfile
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import tables.Tables._
+
+import scala.concurrent.Future
 
 class ProjectRepo @Inject()(taskRepo: TaskRepo)(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile]{
 

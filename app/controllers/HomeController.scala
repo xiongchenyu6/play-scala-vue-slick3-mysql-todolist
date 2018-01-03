@@ -1,22 +1,36 @@
 package controllers
 
 import javax.inject._
+
+import com.mohiva.play.silhouette.api.Silhouette
 import models.{ProjectRepo, TaskRepo}
+import org.webjars.play.WebJarsUtil
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.i18n.I18nSupport
 import play.api.libs.json.JsValue
 import play.api.mvc._
 import slick.jdbc.JdbcProfile
 import tables.Tables._
+import utils.auth.DefaultEnv
+
 import scala.concurrent.ExecutionContext
 /**
   * This controller creates an `Action` to handle HTTP requests to the
   * application's home page.
   */
 @Singleton
-class HomeController @Inject()(implicit ec: ExecutionContext ,protected val dbConfigProvider: DatabaseConfigProvider, projectRepo: ProjectRepo, taskRepo: TaskRepo, cc: MessagesControllerComponents) extends MessagesAbstractController (cc) with HasDatabaseConfigProvider[JdbcProfile
-  ] {
+class HomeController @Inject()(implicit ec: ExecutionContext,
+                               webJarsUtil: WebJarsUtil,
+                               assets: AssetsFinder,
+                               silhouette: Silhouette[DefaultEnv],
+                               protected val dbConfigProvider: DatabaseConfigProvider,
+                               projectRepo: ProjectRepo,
+                               taskRepo: TaskRepo,
+                               cc: MessagesControllerComponents)
+  extends MessagesAbstractController(cc) with HasDatabaseConfigProvider[JdbcProfile
+    ] with I18nSupport {
 
   import dbConfig.profile.api._
   /**
@@ -42,9 +56,16 @@ class HomeController @Inject()(implicit ec: ExecutionContext ,protected val dbCo
       }
   }
 
-  def index() = Action.async { implicit request: MessagesRequest[AnyContent] =>
-    indexPageRender(projectForm)
+  def index() = silhouette.SecuredAction.async { implicit request: Request[AnyContent] =>
+    projectRepo.all().map { projects =>
+      Ok(views.html.index(projectForm, projects))
+    }
+      .recover {
+        case e: Exception =>
+          Ok(e.toString)
+      }
   }
+
   def createProject() = Action.async { implicit request: MessagesRequest[AnyContent] =>
 
     projectForm.bindFromRequest.fold(
