@@ -1,10 +1,8 @@
-@
-import controllers.AssetsFinder
-@
-import org.webjars.play.WebJarsUtil
-@
-import play.api.i18n.Messages
+@import controllers.AssetsFinder
+@import org.webjars.play.WebJarsUtil
+@import play.api.i18n.Messages
 @import tables.Tables
+
 @(project: Form[CreateProjectForm], projects: Seq[Tables.ProjectRow])(implicit requst: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 
 @main("Welcome to Play") {

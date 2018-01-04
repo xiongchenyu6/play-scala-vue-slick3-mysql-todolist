@@ -1,11 +1,13 @@
 # --- !Ups
 CREATE TABLE user (
-  userID    VARCHAR(255) NOT NULL PRIMARY KEY,
-  frstName  VARCHAR(255),
+  userID    VARCHAR(255)             NOT NULL PRIMARY KEY,
+  firstName VARCHAR(255),
   lastName  VARCHAR(255),
   fullName  VARCHAR(255),
   email     VARCHAR(255),
-  avatarURL VARCHAR(255)
+  avatarURL VARCHAR(255),
+  type      ENUM ('admin', 'normal') NOT NULL,
+  activate  BOOLEAN                  NOT NULL
 );
 CREATE TABLE logininfo (
   id          BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -14,7 +16,8 @@ CREATE TABLE logininfo (
 );
 CREATE TABLE userlogininfo (
   userID      VARCHAR(255) NOT NULL,
-  loginInfoId BIGINT       NOT NULL
+  loginInfoId BIGINT       NOT NULL,
+  `timeStamp` timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP
 );
 CREATE TABLE passwordinfo (
   hasher      VARCHAR(255) NOT NULL,
