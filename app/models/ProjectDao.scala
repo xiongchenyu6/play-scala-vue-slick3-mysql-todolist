@@ -7,11 +7,13 @@ import tables.Tables._
 
 import scala.concurrent.Future
 
-class ProjectRepo @Inject()(taskRepo: TaskRepo)(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile]{
+class ProjectRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile]{
 
   import dbConfig.profile.api._
 
   def all():Future[Seq[ProjectRow]] = db.run(Project.result)
+
+  def byId(id:Long):Future[ProjectRow] = db.run(Project.filter(_.id === id).result.head)
 
   def insert(newProject: ProjectRow) = db.run(Project += newProject)
 

@@ -24,6 +24,7 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
             <![endif]-->
     </head>
+
     <body>
         <header class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
@@ -80,10 +81,10 @@
                 @content
             </div>
         </main>
-        @Html(webJarsUtil.script("umd/popper.js"))
-        @Html(webJarsUtil.script("jquery.min.js"))
-        @Html(webJarsUtil.script("bootstrap.min.js"))
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
-        <script src="@assets.path("javascripts/zxcvbnShim.js")"></script>
     </body>
+    @Html(webJarsUtil.script("umd/popper.js"))
+    @Html(webJarsUtil.script("jquery.min.js"))
+    @Html(webJarsUtil.script("bootstrap.min.js"))
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+    <script src="@assets.path("javascripts/zxcvbnShim.js")"></script>
 </html>

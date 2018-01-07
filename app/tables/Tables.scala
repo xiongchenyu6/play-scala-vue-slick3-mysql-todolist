@@ -14,9 +14,147 @@ trait Tables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = Array(Logininfo.schema, Oauth1info.schema, Oauth2info.schema, Openidattributes.schema, Openidinfo.schema, Passwordinfo.schema, PlayEvolutions.schema, Project.schema, Task.schema, User.schema, Userlogininfo.schema).reduceLeft(_ ++ _)
+  lazy val schema: profile.SchemaDescription = Array(Box.schema, Group.schema, Logininfo.schema, Oauth1info.schema, Oauth2info.schema, Openidattributes.schema, Openidinfo.schema, Order.schema, Passwordinfo.schema, PlayEvolutions.schema, Project.schema, Task.schema, User.schema, Userlogininfo.schema).reduceLeft(_ ++ _)
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
+
+  /** Entity class storing rows of table Box
+   *  @param boxId Database column box_id SqlType(INT), AutoInc, PrimaryKey
+   *  @param content Database column content SqlType(TEXT)
+   *  @param number Database column number SqlType(TEXT)
+   *  @param weight Database column weight SqlType(VARCHAR), Length(32,true), Default(0)
+   *  @param company Database column company SqlType(TEXT)
+   *  @param name Database column name SqlType(VARCHAR), Length(32,true)
+   *  @param userId Database column user_id SqlType(INT)
+   *  @param username Database column username SqlType(VARCHAR), Length(32,true)
+   *  @param orderId Database column order_id SqlType(INT)
+   *  @param createat Database column createAt SqlType(TIMESTAMP)
+   *  @param status Database column status SqlType(INT), Default(1)
+   *  @param message Database column message SqlType(TEXT)
+   *  @param groupId Database column group_id SqlType(INT) */
+  case class BoxRow(boxId: Int, content: String, number: String, weight: String = "0", company: String, name: String, userId: Int, username: String, orderId: Int, createat: java.sql.Timestamp, status: Int = 1, message: String, groupId: Int)
+  /** GetResult implicit for fetching BoxRow objects using plain SQL queries */
+  implicit def GetResultBoxRow(implicit e0: GR[Int], e1: GR[String], e2: GR[java.sql.Timestamp]): GR[BoxRow] = GR{
+    prs => import prs._
+    BoxRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[String], <<[String], <<[Int], <<[String], <<[Int], <<[java.sql.Timestamp], <<[Int], <<[String], <<[Int]))
+  }
+  /** Table description of table box. Objects of this class serve as prototypes for rows in queries. */
+  class Box(_tableTag: Tag) extends profile.api.Table[BoxRow](_tableTag, Some("todo"), "box") {
+    def * = (boxId, content, number, weight, company, name, userId, username, orderId, createat, status, message, groupId) <> (BoxRow.tupled, BoxRow.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = (Rep.Some(boxId), Rep.Some(content), Rep.Some(number), Rep.Some(weight), Rep.Some(company), Rep.Some(name), Rep.Some(userId), Rep.Some(username), Rep.Some(orderId), Rep.Some(createat), Rep.Some(status), Rep.Some(message), Rep.Some(groupId)).shaped.<>({r=>import r._; _1.map(_=> BoxRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get, _11.get, _12.get, _13.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column box_id SqlType(INT), AutoInc, PrimaryKey */
+    val boxId: Rep[Int] = column[Int]("box_id", O.AutoInc, O.PrimaryKey)
+    /** Database column content SqlType(TEXT) */
+    val content: Rep[String] = column[String]("content")
+    /** Database column number SqlType(TEXT) */
+    val number: Rep[String] = column[String]("number")
+    /** Database column weight SqlType(VARCHAR), Length(32,true), Default(0) */
+    val weight: Rep[String] = column[String]("weight", O.Length(32,varying=true), O.Default("0"))
+    /** Database column company SqlType(TEXT) */
+    val company: Rep[String] = column[String]("company")
+    /** Database column name SqlType(VARCHAR), Length(32,true) */
+    val name: Rep[String] = column[String]("name", O.Length(32,varying=true))
+    /** Database column user_id SqlType(INT) */
+    val userId: Rep[Int] = column[Int]("user_id")
+    /** Database column username SqlType(VARCHAR), Length(32,true) */
+    val username: Rep[String] = column[String]("username", O.Length(32,varying=true))
+    /** Database column order_id SqlType(INT) */
+    val orderId: Rep[Int] = column[Int]("order_id")
+    /** Database column createAt SqlType(TIMESTAMP) */
+    val createat: Rep[java.sql.Timestamp] = column[java.sql.Timestamp]("createAt")
+    /** Database column status SqlType(INT), Default(1) */
+    val status: Rep[Int] = column[Int]("status", O.Default(1))
+    /** Database column message SqlType(TEXT) */
+    val message: Rep[String] = column[String]("message")
+    /** Database column group_id SqlType(INT) */
+    val groupId: Rep[Int] = column[Int]("group_id")
+  }
+  /** Collection-like TableQuery object for table Box */
+  lazy val Box = new TableQuery(tag => new Box(tag))
+
+  /** Entity class storing rows of table Group
+   *  @param groupId Database column group_id SqlType(INT), AutoInc, PrimaryKey
+   *  @param `type` Database column type SqlType(INT), Default(1)
+   *  @param people Database column people SqlType(INT)
+   *  @param box Database column box SqlType(INT)
+   *  @param street Database column street SqlType(TEXT)
+   *  @param block Database column block SqlType(TEXT)
+   *  @param room Database column room SqlType(TEXT)
+   *  @param postal Database column postal SqlType(INT)
+   *  @param phone Database column phone SqlType(INT)
+   *  @param message Database column message SqlType(TEXT)
+   *  @param userId Database column user_id SqlType(INT)
+   *  @param username Database column username SqlType(VARCHAR), Length(32,true)
+   *  @param kh Database column kh SqlType(INT), Default(1)
+   *  @param createat Database column createAt SqlType(TIMESTAMP)
+   *  @param status Database column status SqlType(INT), Default(1)
+   *  @param number Database column number SqlType(VARCHAR), Length(32,true), Default(Some(0))
+   *  @param ready Database column ready SqlType(INT), Default(Some(0))
+   *  @param weight Database column weight SqlType(VARCHAR), Length(32,true), Default(Some(0))
+   *  @param price Database column price SqlType(VARCHAR), Length(32,true), Default(Some(0))
+   *  @param info Database column info SqlType(TEXT), Default(None)
+   *  @param date Database column date SqlType(VARCHAR), Length(32,true), Default(None) */
+  case class GroupRow(groupId: Int, `type`: Int = 1, people: Int, box: Int, street: String, block: String, room: String, postal: Int, phone: Int, message: String, userId: Int, username: String, kh: Int = 1, createat: java.sql.Timestamp, status: Int = 1, number: Option[String] = Some("0"), ready: Option[Int] = Some(0), weight: Option[String] = Some("0"), price: Option[String] = Some("0"), info: Option[String] = None, date: Option[String] = None)
+  /** GetResult implicit for fetching GroupRow objects using plain SQL queries */
+  implicit def GetResultGroupRow(implicit e0: GR[Int], e1: GR[String], e2: GR[java.sql.Timestamp], e3: GR[Option[String]], e4: GR[Option[Int]]): GR[GroupRow] = GR{
+    prs => import prs._
+    GroupRow.tupled((<<[Int], <<[Int], <<[Int], <<[Int], <<[String], <<[String], <<[String], <<[Int], <<[Int], <<[String], <<[Int], <<[String], <<[Int], <<[java.sql.Timestamp], <<[Int], <<?[String], <<?[Int], <<?[String], <<?[String], <<?[String], <<?[String]))
+  }
+  /** Table description of table group. Objects of this class serve as prototypes for rows in queries.
+   *  NOTE: The following names collided with Scala keywords and were escaped: type */
+  class Group(_tableTag: Tag) extends profile.api.Table[GroupRow](_tableTag, Some("todo"), "group") {
+    def * = (groupId, `type`, people, box, street, block, room, postal, phone, message, userId, username, kh, createat, status, number, ready, weight, price, info, date) <> (GroupRow.tupled, GroupRow.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = (Rep.Some(groupId), Rep.Some(`type`), Rep.Some(people), Rep.Some(box), Rep.Some(street), Rep.Some(block), Rep.Some(room), Rep.Some(postal), Rep.Some(phone), Rep.Some(message), Rep.Some(userId), Rep.Some(username), Rep.Some(kh), Rep.Some(createat), Rep.Some(status), number, ready, weight, price, info, date).shaped.<>({r=>import r._; _1.map(_=> GroupRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get, _11.get, _12.get, _13.get, _14.get, _15.get, _16, _17, _18, _19, _20, _21)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column group_id SqlType(INT), AutoInc, PrimaryKey */
+    val groupId: Rep[Int] = column[Int]("group_id", O.AutoInc, O.PrimaryKey)
+    /** Database column type SqlType(INT), Default(1)
+     *  NOTE: The name was escaped because it collided with a Scala keyword. */
+    val `type`: Rep[Int] = column[Int]("type", O.Default(1))
+    /** Database column people SqlType(INT) */
+    val people: Rep[Int] = column[Int]("people")
+    /** Database column box SqlType(INT) */
+    val box: Rep[Int] = column[Int]("box")
+    /** Database column street SqlType(TEXT) */
+    val street: Rep[String] = column[String]("street")
+    /** Database column block SqlType(TEXT) */
+    val block: Rep[String] = column[String]("block")
+    /** Database column room SqlType(TEXT) */
+    val room: Rep[String] = column[String]("room")
+    /** Database column postal SqlType(INT) */
+    val postal: Rep[Int] = column[Int]("postal")
+    /** Database column phone SqlType(INT) */
+    val phone: Rep[Int] = column[Int]("phone")
+    /** Database column message SqlType(TEXT) */
+    val message: Rep[String] = column[String]("message")
+    /** Database column user_id SqlType(INT) */
+    val userId: Rep[Int] = column[Int]("user_id")
+    /** Database column username SqlType(VARCHAR), Length(32,true) */
+    val username: Rep[String] = column[String]("username", O.Length(32,varying=true))
+    /** Database column kh SqlType(INT), Default(1) */
+    val kh: Rep[Int] = column[Int]("kh", O.Default(1))
+    /** Database column createAt SqlType(TIMESTAMP) */
+    val createat: Rep[java.sql.Timestamp] = column[java.sql.Timestamp]("createAt")
+    /** Database column status SqlType(INT), Default(1) */
+    val status: Rep[Int] = column[Int]("status", O.Default(1))
+    /** Database column number SqlType(VARCHAR), Length(32,true), Default(Some(0)) */
+    val number: Rep[Option[String]] = column[Option[String]]("number", O.Length(32,varying=true), O.Default(Some("0")))
+    /** Database column ready SqlType(INT), Default(Some(0)) */
+    val ready: Rep[Option[Int]] = column[Option[Int]]("ready", O.Default(Some(0)))
+    /** Database column weight SqlType(VARCHAR), Length(32,true), Default(Some(0)) */
+    val weight: Rep[Option[String]] = column[Option[String]]("weight", O.Length(32,varying=true), O.Default(Some("0")))
+    /** Database column price SqlType(VARCHAR), Length(32,true), Default(Some(0)) */
+    val price: Rep[Option[String]] = column[Option[String]]("price", O.Length(32,varying=true), O.Default(Some("0")))
+    /** Database column info SqlType(TEXT), Default(None) */
+    val info: Rep[Option[String]] = column[Option[String]]("info", O.Default(None))
+    /** Database column date SqlType(VARCHAR), Length(32,true), Default(None) */
+    val date: Rep[Option[String]] = column[Option[String]]("date", O.Length(32,varying=true), O.Default(None))
+  }
+  /** Collection-like TableQuery object for table Group */
+  lazy val Group = new TableQuery(tag => new Group(tag))
 
   /** Entity class storing rows of table Logininfo
    *  @param id Database column id SqlType(BIGINT), AutoInc, PrimaryKey
@@ -157,6 +295,58 @@ trait Tables {
   /** Collection-like TableQuery object for table Openidinfo */
   lazy val Openidinfo = new TableQuery(tag => new Openidinfo(tag))
 
+  /** Entity class storing rows of table Order
+   *  @param orderId Database column order_id SqlType(INT), AutoInc, PrimaryKey
+   *  @param groupId Database column group_id SqlType(INT)
+   *  @param userId Database column user_id SqlType(INT)
+   *  @param username Database column username SqlType(VARCHAR), Length(32,true)
+   *  @param price Database column price SqlType(VARCHAR), Length(32,true), Default(0)
+   *  @param `type` Database column type SqlType(INT), Default(1)
+   *  @param status Database column status SqlType(INT), Default(1)
+   *  @param createat Database column createAt SqlType(TIMESTAMP)
+   *  @param weight Database column weight SqlType(VARCHAR), Length(32,true), Default(Some(0))
+   *  @param bill Database column bill SqlType(INT), Default(Some(0))
+   *  @param paid Database column paid SqlType(INT), Default(Some(0)) */
+  case class OrderRow(orderId: Int, groupId: Int, userId: Int, username: String, price: String = "0", `type`: Int = 1, status: Int = 1, createat: java.sql.Timestamp, weight: Option[String] = Some("0"), bill: Option[Int] = Some(0), paid: Option[Int] = Some(0))
+  /** GetResult implicit for fetching OrderRow objects using plain SQL queries */
+  implicit def GetResultOrderRow(implicit e0: GR[Int], e1: GR[String], e2: GR[java.sql.Timestamp], e3: GR[Option[String]], e4: GR[Option[Int]]): GR[OrderRow] = GR{
+    prs => import prs._
+    OrderRow.tupled((<<[Int], <<[Int], <<[Int], <<[String], <<[String], <<[Int], <<[Int], <<[java.sql.Timestamp], <<?[String], <<?[Int], <<?[Int]))
+  }
+  /** Table description of table order. Objects of this class serve as prototypes for rows in queries.
+   *  NOTE: The following names collided with Scala keywords and were escaped: type */
+  class Order(_tableTag: Tag) extends profile.api.Table[OrderRow](_tableTag, Some("todo"), "order") {
+    def * = (orderId, groupId, userId, username, price, `type`, status, createat, weight, bill, paid) <> (OrderRow.tupled, OrderRow.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = (Rep.Some(orderId), Rep.Some(groupId), Rep.Some(userId), Rep.Some(username), Rep.Some(price), Rep.Some(`type`), Rep.Some(status), Rep.Some(createat), weight, bill, paid).shaped.<>({r=>import r._; _1.map(_=> OrderRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9, _10, _11)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column order_id SqlType(INT), AutoInc, PrimaryKey */
+    val orderId: Rep[Int] = column[Int]("order_id", O.AutoInc, O.PrimaryKey)
+    /** Database column group_id SqlType(INT) */
+    val groupId: Rep[Int] = column[Int]("group_id")
+    /** Database column user_id SqlType(INT) */
+    val userId: Rep[Int] = column[Int]("user_id")
+    /** Database column username SqlType(VARCHAR), Length(32,true) */
+    val username: Rep[String] = column[String]("username", O.Length(32,varying=true))
+    /** Database column price SqlType(VARCHAR), Length(32,true), Default(0) */
+    val price: Rep[String] = column[String]("price", O.Length(32,varying=true), O.Default("0"))
+    /** Database column type SqlType(INT), Default(1)
+     *  NOTE: The name was escaped because it collided with a Scala keyword. */
+    val `type`: Rep[Int] = column[Int]("type", O.Default(1))
+    /** Database column status SqlType(INT), Default(1) */
+    val status: Rep[Int] = column[Int]("status", O.Default(1))
+    /** Database column createAt SqlType(TIMESTAMP) */
+    val createat: Rep[java.sql.Timestamp] = column[java.sql.Timestamp]("createAt")
+    /** Database column weight SqlType(VARCHAR), Length(32,true), Default(Some(0)) */
+    val weight: Rep[Option[String]] = column[Option[String]]("weight", O.Length(32,varying=true), O.Default(Some("0")))
+    /** Database column bill SqlType(INT), Default(Some(0)) */
+    val bill: Rep[Option[Int]] = column[Option[Int]]("bill", O.Default(Some(0)))
+    /** Database column paid SqlType(INT), Default(Some(0)) */
+    val paid: Rep[Option[Int]] = column[Option[Int]]("paid", O.Default(Some(0)))
+  }
+  /** Collection-like TableQuery object for table Order */
+  lazy val Order = new TableQuery(tag => new Order(tag))
+
   /** Entity class storing rows of table Passwordinfo
    *  @param hasher Database column hasher SqlType(VARCHAR), Length(255,true)
    *  @param password Database column password SqlType(VARCHAR), Length(255,true)
@@ -289,20 +479,24 @@ trait Tables {
    *  @param fullname Database column fullName SqlType(VARCHAR), Length(255,true), Default(None)
    *  @param email Database column email SqlType(VARCHAR), Length(255,true), Default(None)
    *  @param avatarurl Database column avatarURL SqlType(VARCHAR), Length(255,true), Default(None)
+   *  @param wechat Database column wechat SqlType(VARCHAR), Length(255,true), Default(None)
+   *  @param realname Database column realName SqlType(VARCHAR), Length(255,true), Default(None)
    *  @param `type` Database column type SqlType(ENUM), Length(6,false)
-   *  @param activate Database column activate SqlType(BIT) */
-  case class UserRow(userid: String, firstname: Option[String] = None, lastname: Option[String] = None, fullname: Option[String] = None, email: Option[String] = None, avatarurl: Option[String] = None, `type`: String, activate: Boolean)
+   *  @param agreement Database column agreement SqlType(BIT)
+   *  @param activate Database column activate SqlType(BIT)
+   *  @param createat Database column createAt SqlType(TIMESTAMP) */
+  case class UserRow(userid: String, firstname: Option[String] = None, lastname: Option[String] = None, fullname: Option[String] = None, email: Option[String] = None, avatarurl: Option[String] = None, wechat: Option[String] = None, realname: Option[String] = None, `type`: String, agreement: Boolean, activate: Boolean, createat: java.sql.Timestamp)
   /** GetResult implicit for fetching UserRow objects using plain SQL queries */
-  implicit def GetResultUserRow(implicit e0: GR[String], e1: GR[Option[String]], e2: GR[Boolean]): GR[UserRow] = GR{
+  implicit def GetResultUserRow(implicit e0: GR[String], e1: GR[Option[String]], e2: GR[Boolean], e3: GR[java.sql.Timestamp]): GR[UserRow] = GR{
     prs => import prs._
-    UserRow.tupled((<<[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<[String], <<[Boolean]))
+    UserRow.tupled((<<[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<[String], <<[Boolean], <<[Boolean], <<[java.sql.Timestamp]))
   }
   /** Table description of table user. Objects of this class serve as prototypes for rows in queries.
    *  NOTE: The following names collided with Scala keywords and were escaped: type */
   class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("todo"), "user") {
-    def * = (userid, firstname, lastname, fullname, email, avatarurl, `type`, activate) <> (UserRow.tupled, UserRow.unapply)
+    def * = (userid, firstname, lastname, fullname, email, avatarurl, wechat, realname, `type`, agreement, activate, createat) <> (UserRow.tupled, UserRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(userid), firstname, lastname, fullname, email, avatarurl, Rep.Some(`type`), Rep.Some(activate)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2, _3, _4, _5, _6, _7.get, _8.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(userid), firstname, lastname, fullname, email, avatarurl, wechat, realname, Rep.Some(`type`), Rep.Some(agreement), Rep.Some(activate), Rep.Some(createat)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2, _3, _4, _5, _6, _7, _8, _9.get, _10.get, _11.get, _12.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column userID SqlType(VARCHAR), PrimaryKey, Length(255,true) */
     val userid: Rep[String] = column[String]("userID", O.PrimaryKey, O.Length(255,varying=true))
@@ -316,11 +510,19 @@ trait Tables {
     val email: Rep[Option[String]] = column[Option[String]]("email", O.Length(255,varying=true), O.Default(None))
     /** Database column avatarURL SqlType(VARCHAR), Length(255,true), Default(None) */
     val avatarurl: Rep[Option[String]] = column[Option[String]]("avatarURL", O.Length(255,varying=true), O.Default(None))
+    /** Database column wechat SqlType(VARCHAR), Length(255,true), Default(None) */
+    val wechat: Rep[Option[String]] = column[Option[String]]("wechat", O.Length(255,varying=true), O.Default(None))
+    /** Database column realName SqlType(VARCHAR), Length(255,true), Default(None) */
+    val realname: Rep[Option[String]] = column[Option[String]]("realName", O.Length(255,varying=true), O.Default(None))
     /** Database column type SqlType(ENUM), Length(6,false)
      *  NOTE: The name was escaped because it collided with a Scala keyword. */
     val `type`: Rep[String] = column[String]("type", O.Length(6,varying=false))
+    /** Database column agreement SqlType(BIT) */
+    val agreement: Rep[Boolean] = column[Boolean]("agreement")
     /** Database column activate SqlType(BIT) */
     val activate: Rep[Boolean] = column[Boolean]("activate")
+    /** Database column createAt SqlType(TIMESTAMP) */
+    val createat: Rep[java.sql.Timestamp] = column[java.sql.Timestamp]("createAt")
   }
   /** Collection-like TableQuery object for table User */
   lazy val User = new TableQuery(tag => new User(tag))

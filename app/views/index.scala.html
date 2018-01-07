@@ -3,9 +3,9 @@
 @import play.api.i18n.Messages
 @import tables.Tables
 
-@(project: Form[CreateProjectForm], projects: Seq[Tables.ProjectRow])(implicit requst: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@(project: Form[CreateProjectForm], projects: Seq[Tables.ProjectRow], user: Option[models.User])(implicit requst: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 
-@main("Welcome to Play") {
+@main("Welcome to Play", user) {
     <div class="container">
         <div class="row">
             <div class="col-md-6">

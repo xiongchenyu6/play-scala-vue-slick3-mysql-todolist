@@ -30,3 +30,60 @@ case class WithProvider[A <: Authenticator](provider: String) extends Authorizat
     Future.successful(user.loginInfo.providerID == provider)
   }
 }
+
+case class SuperRight[A <: Authenticator]() extends Authorization[User, A] {
+
+  /**
+    * Indicates if a user is authorized to access an action.
+    *
+    * @param user          The usr object.
+    * @param authenticator The authenticator instance.
+    * @param request       The current request.
+    * @tparam B The type of the request body.
+    * @return True if the user is authorized, false otherwise.
+    */
+  override def isAuthorized[B](user: User, authenticator: A)(
+    implicit
+    request: Request[B]): Future[Boolean] = {
+
+    Future.successful(user.`type` == "super")
+  }
+}
+
+case class AdminRight[A <: Authenticator]() extends Authorization[User, A] {
+
+  /**
+    * Indicates if a user is authorized to access an action.
+    *
+    * @param user          The usr object.
+    * @param authenticator The authenticator instance.
+    * @param request       The current request.
+    * @tparam B The type of the request body.
+    * @return True if the user is authorized, false otherwise.
+    */
+  override def isAuthorized[B](user: User, authenticator: A)(
+    implicit
+    request: Request[B]): Future[Boolean] = {
+
+    Future.successful(user.`type` == "admin" || user.`type` == "super")
+  }
+}
+
+case class NormalRight[A <: Authenticator]() extends Authorization[User, A] {
+
+  /**
+    * Indicates if a user is authorized to access an action.
+    *
+    * @param user          The usr object.
+    * @param authenticator The authenticator instance.
+    * @param request       The current request.
+    * @tparam B The type of the request body.
+    * @return True if the user is authorized, false otherwise.
+    */
+  override def isAuthorized[B](user: User, authenticator: A)(
+    implicit
+    request: Request[B]): Future[Boolean] = {
+
+    Future.successful(user.`type` == "normal" || user.`type` == "admin" || user.`type` == "super")
+  }
+}
