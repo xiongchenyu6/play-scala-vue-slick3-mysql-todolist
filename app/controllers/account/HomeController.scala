@@ -1,29 +1,31 @@
-package controllers
+package controllers.account
 
-import javax.inject._
+import javax.inject.{Inject, Singleton}
 
 import com.mohiva.play.silhouette.api.Silhouette
 import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import controllers.AssetsFinder
 import models.graphql.ProjectDefination
 import models.{ProjectRepo, TaskRepo}
 import org.webjars.play.WebJarsUtil
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.data.Forms.mapping
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.i18n.I18nSupport
-import sangria.marshalling.playJson._
 import play.api.libs.json.{JsObject, JsString, JsValue, Json}
-import play.api.mvc._
-import sangria.execution._
+import play.api.mvc.{AnyContent, MessagesAbstractController, MessagesControllerComponents, Request}
+import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}
 import sangria.parser.{QueryParser, SyntaxError}
+import sangria.marshalling.playJson._
 import slick.jdbc.JdbcProfile
 import tables.Tables._
 import utils.Logger
 import utils.auth.{DefaultEnv, NormalRight}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
-import scala.concurrent.ExecutionContext
+
 /**
   * This controller creates an `Action` to handle HTTP requests to the
   * application's home page.
@@ -57,7 +59,7 @@ class HomeController @Inject()(implicit ec: ExecutionContext,
   def indexPageRender(form:Form[CreateProjectForm] = projectForm)
                      (implicit request: SecuredRequest[DefaultEnv,AnyContent]) = {
     projectRepo.all().map {projects =>
-      Ok(views.html.index(projectForm,projects,Some(request.identity)))
+      Ok(views.html.account.index(projectForm,projects,Some(request.identity)))
     }
       .recover{
         case e: Exception =>
@@ -172,4 +174,3 @@ class HomeController @Inject()(implicit ec: ExecutionContext,
         throw error
     }
 }
-case class CreateProjectForm(name: String)

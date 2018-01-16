@@ -1,18 +1,19 @@
-package controllers
+package controllers.account
 
 import javax.inject.Inject
 
 import com.mohiva.play.silhouette.api._
 import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
+import controllers.AssetsFinder
 import forms.ForgotPasswordForm
-import models.services.{ AuthTokenService, UserService }
+import models.services.{AuthTokenService, UserService}
 import org.webjars.play.WebJarsUtil
-import play.api.i18n.{ I18nSupport, Messages }
-import play.api.libs.mailer.{ Email, MailerClient }
-import play.api.mvc.{ AbstractController, AnyContent, ControllerComponents, Request }
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.libs.mailer.{Email, MailerClient}
+import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 import utils.auth.DefaultEnv
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * The `Forgot Password` controller.
@@ -45,7 +46,7 @@ class ForgotPasswordController @Inject() (
    * @return The result to display.
    */
   def view = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
-    Future.successful(Ok(views.html.forgotPassword(ForgotPasswordForm.form)))
+    Future.successful(Ok(views.html.account.forgotPassword(ForgotPasswordForm.form)))
   }
 
   /**
@@ -58,7 +59,7 @@ class ForgotPasswordController @Inject() (
    */
   def submit = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     ForgotPasswordForm.form.bindFromRequest.fold(
-      form => Future.successful(BadRequest(views.html.forgotPassword(form))),
+      form => Future.successful(BadRequest(views.html.account.forgotPassword(form))),
       email => {
         val loginInfo = LoginInfo(CredentialsProvider.ID, email)
         val result = Redirect(routes.SignInController.view()).flashing("info" -> Messages("reset.email.sent"))

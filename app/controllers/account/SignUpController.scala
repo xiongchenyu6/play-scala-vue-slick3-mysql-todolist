@@ -1,4 +1,4 @@
-package controllers
+package controllers.account
 
 import java.util.UUID
 import javax.inject.Inject
@@ -8,16 +8,17 @@ import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
 import com.mohiva.play.silhouette.api.services.AvatarService
 import com.mohiva.play.silhouette.api.util.PasswordHasherRegistry
 import com.mohiva.play.silhouette.impl.providers._
+import controllers.{AssetsFinder, routes}
 import forms.SignUpForm
 import models.User
-import models.services.{ AuthTokenService, UserService }
+import models.services.{AuthTokenService, UserService}
 import org.webjars.play.WebJarsUtil
-import play.api.i18n.{ I18nSupport, Messages }
-import play.api.libs.mailer.{ Email, MailerClient }
-import play.api.mvc.{ AbstractController, AnyContent, ControllerComponents, Request }
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.libs.mailer.{Email, MailerClient}
+import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 import utils.auth.DefaultEnv
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * The `Sign Up` controller.
@@ -56,7 +57,7 @@ class SignUpController @Inject() (
    * @return The result to display.
    */
   def view = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
-    Future.successful(Ok(views.html.signUp(SignUpForm.form)))
+    Future.successful(Ok(views.html.account.signUp(SignUpForm.form)))
   }
 
   /**
@@ -66,7 +67,7 @@ class SignUpController @Inject() (
    */
   def submit = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     SignUpForm.form.bindFromRequest.fold(
-      form => Future.successful(BadRequest(views.html.signUp(form))),
+      form => Future.successful(BadRequest(views.html.account.signUp(form))),
       data => {
         val result = Redirect(routes.SignUpController.view()).flashing("info" -> Messages("sign.up.email.sent", data.email))
         val loginInfo = LoginInfo(CredentialsProvider.ID, data.email)

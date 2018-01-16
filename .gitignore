@@ -8,4 +8,8 @@ target
 /RUNNING_PID
 .g8
 .ensime
+.ensime_cache/
+GPATH
+GRTAGS
+GTAGS
 .DS_Store

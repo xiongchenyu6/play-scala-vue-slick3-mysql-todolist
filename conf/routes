@@ -9,36 +9,36 @@
 # ~~~~
 
 # Home page
-GET         /                               controllers.ApplicationController.index
-GET         /signOut                        controllers.ApplicationController.signOut
-GET         /authenticate/:provider         controllers.SocialAuthController.authenticate(provider)
+GET         /                               controllers.account.ApplicationController.index
+GET         /signOut                        controllers.account.ApplicationController.signOut
+GET         /authenticate/:provider         controllers.account.SocialAuthController.authenticate(provider)
 
-GET         /signUp                         controllers.SignUpController.view
-POST        /signUp                         controllers.SignUpController.submit
+GET         /signUp                         controllers.account.SignUpController.view
+POST        /signUp                         controllers.account.SignUpController.submit
 
-GET         /signIn                         controllers.SignInController.view
-POST        /signIn                         controllers.SignInController.submit
+GET         /signIn                         controllers.account.SignInController.view
+POST        /signIn                         controllers.account.SignInController.submit
 
-GET         /password/forgot                controllers.ForgotPasswordController.view
-POST        /password/forgot                controllers.ForgotPasswordController.submit
-GET         /password/reset/:token          controllers.ResetPasswordController.view(token: java.util.UUID)
-POST        /password/reset/:token          controllers.ResetPasswordController.submit(token: java.util.UUID)
-GET         /password/change                controllers.ChangePasswordController.view
-POST        /password/change                controllers.ChangePasswordController.submit
+GET         /password/forgot                controllers.account.ForgotPasswordController.view
+POST        /password/forgot                controllers.account.ForgotPasswordController.submit
+GET         /password/reset/:token          controllers.account.ResetPasswordController.view(token: java.util.UUID)
+POST        /password/reset/:token          controllers.account.ResetPasswordController.submit(token: java.util.UUID)
+GET         /password/change                controllers.account.ChangePasswordController.view
+POST        /password/change                controllers.account.ChangePasswordController.submit
 
-GET         /account/email/:email           controllers.ActivateAccountController.send(email: String)
-GET         /account/activate/:token        controllers.ActivateAccountController.activate(token: java.util.UUID)
+GET         /account/email/:email           controllers.account.ActivateAccountController.send(email: String)
+GET         /account/activate/:token        controllers.account.ActivateAccountController.activate(token: java.util.UUID)
 
-GET         /aa                             controllers.HomeController.index
+GET         /aa                             controllers.account.HomeController.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /generatetable              controllers.HomeController.generateTable
-POST    /createProject              controllers.HomeController.createProject
+GET     /generatetable              controllers.account.HomeController.generateTable
+POST    /createProject              controllers.account.HomeController.createProject
 + nocsrf
-POST    /updateProject              controllers.HomeController.updateProject
+POST    /updateProject              controllers.account.HomeController.updateProject
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                   controllers.Assets.versioned(file)
 ->          /webjars                        webjars.Routes
 
-GET        /graphql              controllers.HomeController.graphql(query: String, variables: Option[String], operation: Option[String])
-POST       /graphql              controllers.HomeController.graphqlBody
+GET        /graphql              controllers.account.HomeController.graphql(query: String, variables: Option[String], operation: Option[String])
+POST       /graphql              controllers.account.HomeController.graphqlBody

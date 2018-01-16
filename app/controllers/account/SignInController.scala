@@ -1,4 +1,4 @@
-package controllers
+package controllers.account
 
 import javax.inject.Inject
 
@@ -8,11 +8,12 @@ import com.mohiva.play.silhouette.api.exceptions.ProviderException
 import com.mohiva.play.silhouette.api.util.{Clock, Credentials}
 import com.mohiva.play.silhouette.impl.exceptions.IdentityNotFoundException
 import com.mohiva.play.silhouette.impl.providers._
+import controllers.AssetsFinder
 import forms.SignInForm
 import models.services.UserService
 import net.ceedubs.ficus.Ficus._
 import org.webjars.play.WebJarsUtil
-import play.api.{Configuration}
+import play.api.Configuration
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 import utils.auth.DefaultEnv
@@ -54,7 +55,7 @@ class SignInController @Inject() (
    * @return The result to display.
    */
   def view = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
-    Future.successful(Ok(views.html.signIn(SignInForm.form, socialProviderRegistry)))
+    Future.successful(Ok(views.html.account.signIn(SignInForm.form, socialProviderRegistry)))
   }
 
   /**
@@ -64,14 +65,14 @@ class SignInController @Inject() (
    */
   def submit = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     SignInForm.form.bindFromRequest.fold(
-      form => Future.successful(BadRequest(views.html.signIn(form, socialProviderRegistry))),
+      form => Future.successful(BadRequest(views.html.account.signIn(form, socialProviderRegistry))),
       data => {
         val credentials = Credentials(data.email, data.password)
         credentialsProvider.authenticate(credentials).flatMap { loginInfo =>
           val result = Redirect(routes.ApplicationController.index())
           userService.retrieve(loginInfo).flatMap {
             case Some(user) if !user.activate =>
-              Future.successful(Ok(views.html.activateAccount(data.email)))
+              Future.successful(Ok(views.html.account.activateAccount(data.email)))
             case Some(user) =>
               val c = configuration.underlying
               silhouette.env.authenticatorService.create(loginInfo).map {

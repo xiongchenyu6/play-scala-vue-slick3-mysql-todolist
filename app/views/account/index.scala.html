@@ -3,6 +3,7 @@
 @import play.api.i18n.Messages
 @import tables.Tables
 
+@import controllers.account.CreateProjectForm
 @(project: Form[CreateProjectForm], projects: Seq[Tables.ProjectRow], user: Option[models.User])(implicit requst: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 
 @main("Welcome to Play", user) {
@@ -12,7 +13,7 @@
                 <div class="todolist not-done">
                     <h1>Project List</h1>
                     <hr>
-                    @helper.form(action = routes.HomeController.createProject()) {
+                    @helper.form(action = controllers.account.routes.HomeController.createProject()) {
                         @helper.CSRF.formField
                         @helper.inputText(project("name"),'class -> "form-control add-todo")
                         <input type="submit" class="btn btn-success" value="Add new project"/>

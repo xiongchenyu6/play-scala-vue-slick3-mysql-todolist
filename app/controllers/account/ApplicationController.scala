@@ -1,16 +1,16 @@
-package controllers
+package controllers.account
 
 import javax.inject.Inject
 
 import com.mohiva.play.silhouette.api.actions.SecuredRequest
-import com.mohiva.play.silhouette.api.{ LogoutEvent, Silhouette }
+import com.mohiva.play.silhouette.api.{LogoutEvent, Silhouette}
+import controllers.AssetsFinder
 import org.webjars.play.WebJarsUtil
 import play.api.i18n.I18nSupport
-import play.api.mvc.{ AbstractController, AnyContent, ControllerComponents }
+import play.api.mvc.{AbstractController, AnyContent, ControllerComponents}
 import utils.auth.DefaultEnv
 
 import scala.concurrent.Future
-import play.api.Logger
 /**
  * The basic application controller.
  *
@@ -34,7 +34,7 @@ class ApplicationController @Inject() (
    * @return The result to display.
    */
   def index = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    Future.successful(Ok(views.html.home(request.identity)))
+    Future.successful(Ok(views.html.account.home(request.identity)))
   }
 
   /**
