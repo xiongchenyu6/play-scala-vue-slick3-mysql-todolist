@@ -480,23 +480,22 @@ trait Tables {
    *  @param email Database column email SqlType(VARCHAR), Length(255,true), Default(None)
    *  @param avatarurl Database column avatarURL SqlType(VARCHAR), Length(255,true), Default(None)
    *  @param wechat Database column wechat SqlType(VARCHAR), Length(255,true), Default(None)
-   *  @param realname Database column realName SqlType(VARCHAR), Length(255,true), Default(None)
    *  @param `type` Database column type SqlType(ENUM), Length(6,false)
    *  @param agreement Database column agreement SqlType(BIT)
    *  @param activate Database column activate SqlType(BIT)
    *  @param createat Database column createAt SqlType(TIMESTAMP) */
-  case class UserRow(userid: String, firstname: Option[String] = None, lastname: Option[String] = None, fullname: Option[String] = None, email: Option[String] = None, avatarurl: Option[String] = None, wechat: Option[String] = None, realname: Option[String] = None, `type`: String, agreement: Boolean, activate: Boolean, createat: java.sql.Timestamp)
+  case class UserRow(userid: String, firstname: Option[String] = None, lastname: Option[String] = None, fullname: Option[String] = None, email: Option[String] = None, avatarurl: Option[String] = None, wechat: Option[String] = None, `type`: String, agreement: Boolean, activate: Boolean, createat: java.sql.Timestamp)
   /** GetResult implicit for fetching UserRow objects using plain SQL queries */
   implicit def GetResultUserRow(implicit e0: GR[String], e1: GR[Option[String]], e2: GR[Boolean], e3: GR[java.sql.Timestamp]): GR[UserRow] = GR{
     prs => import prs._
-    UserRow.tupled((<<[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<[String], <<[Boolean], <<[Boolean], <<[java.sql.Timestamp]))
+    UserRow.tupled((<<[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<?[String], <<[String], <<[Boolean], <<[Boolean], <<[java.sql.Timestamp]))
   }
   /** Table description of table user. Objects of this class serve as prototypes for rows in queries.
    *  NOTE: The following names collided with Scala keywords and were escaped: type */
   class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("todo"), "user") {
-    def * = (userid, firstname, lastname, fullname, email, avatarurl, wechat, realname, `type`, agreement, activate, createat) <> (UserRow.tupled, UserRow.unapply)
+    def * = (userid, firstname, lastname, fullname, email, avatarurl, wechat, `type`, agreement, activate, createat) <> (UserRow.tupled, UserRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(userid), firstname, lastname, fullname, email, avatarurl, wechat, realname, Rep.Some(`type`), Rep.Some(agreement), Rep.Some(activate), Rep.Some(createat)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2, _3, _4, _5, _6, _7, _8, _9.get, _10.get, _11.get, _12.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(userid), firstname, lastname, fullname, email, avatarurl, wechat, Rep.Some(`type`), Rep.Some(agreement), Rep.Some(activate), Rep.Some(createat)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2, _3, _4, _5, _6, _7, _8.get, _9.get, _10.get, _11.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column userID SqlType(VARCHAR), PrimaryKey, Length(255,true) */
     val userid: Rep[String] = column[String]("userID", O.PrimaryKey, O.Length(255,varying=true))
@@ -512,8 +511,6 @@ trait Tables {
     val avatarurl: Rep[Option[String]] = column[Option[String]]("avatarURL", O.Length(255,varying=true), O.Default(None))
     /** Database column wechat SqlType(VARCHAR), Length(255,true), Default(None) */
     val wechat: Rep[Option[String]] = column[Option[String]]("wechat", O.Length(255,varying=true), O.Default(None))
-    /** Database column realName SqlType(VARCHAR), Length(255,true), Default(None) */
-    val realname: Rep[Option[String]] = column[Option[String]]("realName", O.Length(255,varying=true), O.Default(None))
     /** Database column type SqlType(ENUM), Length(6,false)
      *  NOTE: The name was escaped because it collided with a Scala keyword. */
     val `type`: Rep[String] = column[String]("type", O.Length(6,varying=false))

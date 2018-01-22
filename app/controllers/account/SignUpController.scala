@@ -93,7 +93,6 @@ class SignUpController @Inject() (
               fullName = Some(data.firstName + " " + data.lastName),
               email = Some(data.email),
               wechat = Some("a"),
-              realName = Some("a"),
               `type` = "normal",
               agreement= false,
               avatarURL = None,

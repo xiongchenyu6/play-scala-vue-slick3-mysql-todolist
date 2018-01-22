@@ -7,7 +7,6 @@ CREATE TABLE user (
   email     VARCHAR(255),
   avatarURL VARCHAR(255),
   wechat    VARCHAR(255),
-  realName  VARCHAR(255),
   type      ENUM ('super', 'admin', 'normal') NOT NULL,
   agreement BOOLEAN                           NOT NULL,
   activate  BOOLEAN                           NOT NULL,

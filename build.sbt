@@ -34,8 +34,10 @@ libraryDependencies ++= Seq(
   "net.codingwell" %% "scala-guice" % "4.1.0",
   "org.webjars" %% "webjars-play" % "2.6.2",
   "org.webjars.bower" % "compass-mixins" % "0.12.7",
-  "org.webjars" % "bootstrap" % "4.0.0-beta.3",
-  "org.webjars" % "font-awesome" % "5.0.2"
+  "org.webjars" % "bootstrap" % "4.0.0",
+  "org.webjars" % "font-awesome" % "5.0.2",
+  "org.webjars" % "d3js" % "4.10.2",
+  "com.hankcs" % "hanlp" % "portable-1.3.4"
 )
 routesImport += "utils.route.Binders._"
 // Adds additional packages into Twirl

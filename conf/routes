@@ -1,12 +1,6 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# https://www.playframework.com/documentation/latest/ScalaRouting
-# ~~~~
-
-# An example controller showing a sample home page
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                   controllers.Assets.versioned(file)
+->          /webjars                        webjars.Routes
 
 # Home page
 GET         /                               controllers.account.ApplicationController.index
@@ -36,9 +30,14 @@ GET     /generatetable              controllers.account.HomeController.generateT
 POST    /createProject              controllers.account.HomeController.createProject
 + nocsrf
 POST    /updateProject              controllers.account.HomeController.updateProject
-# Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                   controllers.Assets.versioned(file)
-->          /webjars                        webjars.Routes
 
+# Graphql
 GET        /graphql              controllers.account.HomeController.graphql(query: String, variables: Option[String], operation: Option[String])
 POST       /graphql              controllers.account.HomeController.graphqlBody
+#GET        /render-schema        controllers.account.HomeController.renderSchema
+#GET        /graphiql             controllers.account.HomeController.graphiql
+
+# Admin
+GET        /admin/home         controllers.admin.AdminController.home
+GET        /admin/countByDay   controllers.admin.AdminController.getCountByDay
+GET        /admin/bestBuy      controllers.admin.AdminController.getBestBuy

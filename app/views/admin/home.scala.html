@@ -1,0 +1,14 @@
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import org.webjars.play.WebJarsUtil
+@import controllers.AssetsFinder
+
+@(a:String)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder, webJarsUtil: WebJarsUtil)
+
+@dashBoard("home",Seq("javascripts/admin/home.js"),Seq("stylesheets/admin/home.css")) {
+
+    <label><input type="checkbox"> Sort values</label>
+    <svg class="chart"></svg>
+    <div> The most popular item is @a</div>
+
+}

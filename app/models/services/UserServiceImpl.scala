@@ -69,7 +69,6 @@ class UserServiceImpl @Inject() (userDAO: UserDAO)(implicit ex: ExecutionContext
           fullName =  profile.fullName,
           email =     profile.email,
           wechat = Some(""),
-          realName= Some(""),
           agreement= false,
           `type` =    "normal",
           avatarURL = profile.avatarURL,

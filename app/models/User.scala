@@ -24,7 +24,6 @@ case class User(
   fullName: Option[String],
   email: Option[String],
   wechat: Option[String],
-  realName: Option[String],
   avatarURL: Option[String],
   agreement:Boolean,
   `type`: String,
