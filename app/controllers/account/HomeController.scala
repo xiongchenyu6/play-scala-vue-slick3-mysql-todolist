@@ -12,7 +12,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.Forms.mapping
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
-import play.api.i18n.I18nSupport
+import play.api.i18n.{I18nSupport, Lang}
 import play.api.libs.json.{JsObject, JsString, JsValue, Json}
 import play.api.mvc.{AnyContent, MessagesAbstractController, MessagesControllerComponents, Request}
 import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}
@@ -87,6 +87,14 @@ class HomeController @Inject()(implicit ec: ExecutionContext,
                 Ok(e.toString)
             }
       })
+  }
+
+  def homePageInEnglish = Action {
+    Redirect("/").withLang(Lang("en")) // set french language in the Play's language cookie for future requests
+  }
+
+  def homePageWithDefaultLang = Action {
+    Redirect("/").withLang(Lang("zh-CN")) // discarding the language cookie set by withLang
   }
 
   def updateProject() = Action.async(parse.json) {implicit request: Request[JsValue] =>

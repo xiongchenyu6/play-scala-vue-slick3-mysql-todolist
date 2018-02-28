@@ -41,3 +41,7 @@ POST       /graphql              controllers.account.HomeController.graphqlBody
 GET        /admin/home         controllers.admin.AdminController.home
 GET        /admin/countByDay   controllers.admin.AdminController.getCountByDay
 GET        /admin/bestBuy      controllers.admin.AdminController.getBestBuy
+
+#i18n
+GET        /defaultLanguage     controllers.account.HomeController.homePageWithDefaultLang
+GET        /english             controllers.account.HomeController.homePageInEnglish

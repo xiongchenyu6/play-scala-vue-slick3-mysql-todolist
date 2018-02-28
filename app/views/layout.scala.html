@@ -1,0 +1,73 @@
+@import controllers.AssetsFinder
+@import org.webjars.play.WebJarsUtil
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import play.twirl.api.Html
+
+@(title: String, user: Option[models.User] = None)(content: Html)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder, webJarsUtil: WebJarsUtil)
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="@assets.path("images/favicon.png")">
+        <title>@title</title>
+        @Html(webJarsUtil.css("4.0.0/css/bootstrap.css"))
+        @Html(webJarsUtil.css("fontawesome-all.css"))
+        <link rel="stylesheet" href="@assets.path("stylesheets/layout.css")">
+    </head>
+    <nav class="navbar navbar-light bg-light navbar-expand-md">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar">&#x2630;</button>
+        <a class="navbar-brand" href="index.php">
+            <strong>@messages("title")</strong>
+        </a>
+        <div
+        class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="&apos;.$shouye.&apos; nav-item"><a href="index.php" class="nav-link">@messages("home")</a>
+                </li>
+                <li class="&apos;.$kongyun.&apos; nav-item"><a href="kongyun.php" class="nav-link">@messages("airFight")</a>
+                </li>
+                <li class="&apos;.$haiyun.&apos; nav-item"><a href="haiyun.php" class="nav-link">@messages("seaFight")</a>
+                </li>
+                <li class="&apos;.$detail.&apos; nav-item"><a href="detail.php" class="nav-link">@messages("process")</a>
+                </li>
+                <li class="&apos;.$search.&apos; nav-item"><a href="searchbox.php" class="nav-link">@messages("query")</a>
+                </li>
+                <li class="&apos;.$about.&apos; nav-item"><a href="account.php" class="nav-link">@messages("account")</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                @user.map { u =>
+                <li class="nav-item"><a class="nav-link"  href="@controllers.account.routes.ApplicationController.index">@u.name</a></li>
+                @if(u.loginInfo.providerID == com.mohiva.play.silhouette.impl.providers.CredentialsProvider.ID) {
+                    <li class="nav-item"><a class="nav-link"  href="@controllers.account.routes.ChangePasswordController.view">@messages("change.password")</a></li>
+                }
+                <li class="nav-item"><a class="nav-link"  href="@controllers.account.routes.ApplicationController.signOut">@messages("sign.out")</a></li>
+                }.getOrElse {
+                    <li class="nav-item"><a class="nav-link"  href="@controllers.account.routes.SignInController.view">@messages("sign.in")</a></li>
+                    <li class="nav-item"><a class="nav-link"  href="@controllers.account.routes.SignUpController.view">@messages("sign.up")</a></li>
+                }
+                @if(messages.lang.language == "en"){
+                    <li class="nav-item"><a class="nav-link"  href="@controllers.account.routes.HomeController.homePageWithDefaultLang()">@messages("changeLang")</a></li>
+                }else{
+                    <li class="nav-item"><a class="nav-link"  href="@controllers.account.routes.HomeController.homePageInEnglish()">@messages("changeLang")</a></li>
+                }
+            </ul>
+        </div>
+    </nav>
+    <body>
+    @content
+    </body>
+
+    <footer >
+        <a href="mailto:ntugeek@@gmail.com">@messages("produced","chenyu")</a>
+        <p >@Html(messages("copyright"))</p>
+
+    </footer>
+
+    @Html(webJarsUtil.script("umd/popper.js"))
+    @Html(webJarsUtil.script("jquery.min.js"))
+    @Html(webJarsUtil.script("bootstrap.min.js"))
+</html>

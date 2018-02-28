@@ -1,3 +1,32 @@
-SignIn = 登录
-SignUp = 登录
-SignOut= 登出
+# nav
+title = 小坡岛新加坡集运
+home = 首页
+airFight = 空运拼团
+seaFight = 海运拼团
+process = 拼团流程
+query = 查询订单
+account = 我的账户
+changeLang = English
+
+sign.in = 登录
+sign.up = 注册
+sign.out= 登出
+change.password= 更改密码
+produced = 维护者 {0}
+copyright = 版权所有 &copy 2017 陕西恒祥亿家木制品装饰设计工程有限公司 备案号：陕ICP备14011435号
+sign.up.title=小坡岛集运 - 注册
+sign.in.title=小坡岛集运 - 登陆
+sign.in.credentials = 登录信息
+sign.up.account = 注册账户
+already.a.member = 已经存在账户
+sign.in.now = 立即登陆
+remember.me = 记住我
+not.a.member = 不是会员
+sign.up.now = 立即注册
+forgot.your.password = 忘记密码
+or.use.social = 第三方登陆
+first.name = 名
+last.name = 姓
+full.name = 全名
+email = 邮箱
+welcome.signed.in = 欢迎登陆

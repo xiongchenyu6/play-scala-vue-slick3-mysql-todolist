@@ -1,17 +1,32 @@
+# nav
+title = XIAOPODAO
+home = Home
+airFight = By Air
+seaFight = By see
+process = Process
+query = Query Bookings
+account = My Account
+changeLang = 中文
 user.name= Username
 wechat = Wechat
+
+produced = Produced by {0}
+copyright = Copyright by &copy; 2017 SHANXI HENGXIANG YIJIA Design Pte ltd Case Number：陕ICP备14011435号
 error.email=Valid email required
 error.required=This field is required
+
+
+
 invalid.credentials=Invalid credentials!
 access.denied=Access denied!
 could.not.authenticate=Could not authenticate with social provider! Please try again!
 home.title=Xiaopodao
 sign.up.title=Xiaopodao - Sign Up
 sign.in.title=Xiaopodao - Sign In
-forgot.password.title=Silhouette - Forgot Password
-reset.password.title=Silhouette - Reset Password
-change.password.title=Silhouette - Change Password
-activate.account.title=Silhouette - Activate Account
+forgot.password.title=Xiaopodao - Forgot Password
+reset.password.title=Xiaopodao - Reset Password
+change.password.title=Xiaopodao - Change Password
+activate.account.title=Xiaopodao - Activate Account
 toggle.navigation=Toggle navigation
 welcome.signed.in=Welcome, you are now signed in!
 sign.up.account=Sign up for a new account
