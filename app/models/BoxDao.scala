@@ -26,7 +26,7 @@ class BoxDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) e
     data.groupBy { r =>
       val cal = Calendar.getInstance();
       cal.setTime(r.createat)
-      val sdf = new SimpleDateFormat("yyyyMMw");
+      val sdf = new SimpleDateFormat("yyyyMM");
       sdf.format(cal.getTime)
     }.map { data =>
       BD(data._1, data._2.size)
@@ -53,4 +53,3 @@ object BoxDao{
 }
 
 case class BD(date:String, count:Int)
-

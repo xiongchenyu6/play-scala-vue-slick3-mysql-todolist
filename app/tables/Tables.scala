@@ -39,7 +39,7 @@ trait Tables {
     BoxRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[String], <<[String], <<[Int], <<[String], <<[Int], <<[java.sql.Timestamp], <<[Int], <<[String], <<[Int]))
   }
   /** Table description of table box. Objects of this class serve as prototypes for rows in queries. */
-  class Box(_tableTag: Tag) extends profile.api.Table[BoxRow](_tableTag, Some("todo"), "box") {
+  class Box(_tableTag: Tag) extends profile.api.Table[BoxRow](_tableTag, Some("fyp"), "box") {
     def * = (boxId, content, number, weight, company, name, userId, username, orderId, createat, status, message, groupId) <> (BoxRow.tupled, BoxRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(boxId), Rep.Some(content), Rep.Some(number), Rep.Some(weight), Rep.Some(company), Rep.Some(name), Rep.Some(userId), Rep.Some(username), Rep.Some(orderId), Rep.Some(createat), Rep.Some(status), Rep.Some(message), Rep.Some(groupId)).shaped.<>({r=>import r._; _1.map(_=> BoxRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get, _11.get, _12.get, _13.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -104,7 +104,7 @@ trait Tables {
   }
   /** Table description of table group. Objects of this class serve as prototypes for rows in queries.
    *  NOTE: The following names collided with Scala keywords and were escaped: type */
-  class Group(_tableTag: Tag) extends profile.api.Table[GroupRow](_tableTag, Some("todo"), "group") {
+  class Group(_tableTag: Tag) extends profile.api.Table[GroupRow](_tableTag, Some("fyp"), "group") {
     def * = (groupId, `type`, people, box, street, block, room, postal, phone, message, userId, username, kh, createat, status, number, ready, weight, price, info, date) <> (GroupRow.tupled, GroupRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(groupId), Rep.Some(`type`), Rep.Some(people), Rep.Some(box), Rep.Some(street), Rep.Some(block), Rep.Some(room), Rep.Some(postal), Rep.Some(phone), Rep.Some(message), Rep.Some(userId), Rep.Some(username), Rep.Some(kh), Rep.Some(createat), Rep.Some(status), number, ready, weight, price, info, date).shaped.<>({r=>import r._; _1.map(_=> GroupRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get, _11.get, _12.get, _13.get, _14.get, _15.get, _16, _17, _18, _19, _20, _21)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -167,7 +167,7 @@ trait Tables {
     LogininfoRow.tupled((<<[Long], <<[String], <<[String]))
   }
   /** Table description of table logininfo. Objects of this class serve as prototypes for rows in queries. */
-  class Logininfo(_tableTag: Tag) extends profile.api.Table[LogininfoRow](_tableTag, Some("todo"), "logininfo") {
+  class Logininfo(_tableTag: Tag) extends profile.api.Table[LogininfoRow](_tableTag, Some("fyp"), "logininfo") {
     def * = (id, providerid, providerkey) <> (LogininfoRow.tupled, LogininfoRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(providerid), Rep.Some(providerkey)).shaped.<>({r=>import r._; _1.map(_=> LogininfoRow.tupled((_1.get, _2.get, _3.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -194,7 +194,7 @@ trait Tables {
     Oauth1infoRow.tupled((<<[Long], <<[String], <<[String], <<[Long]))
   }
   /** Table description of table oauth1info. Objects of this class serve as prototypes for rows in queries. */
-  class Oauth1info(_tableTag: Tag) extends profile.api.Table[Oauth1infoRow](_tableTag, Some("todo"), "oauth1info") {
+  class Oauth1info(_tableTag: Tag) extends profile.api.Table[Oauth1infoRow](_tableTag, Some("fyp"), "oauth1info") {
     def * = (id, token, secret, logininfoid) <> (Oauth1infoRow.tupled, Oauth1infoRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(token), Rep.Some(secret), Rep.Some(logininfoid)).shaped.<>({r=>import r._; _1.map(_=> Oauth1infoRow.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -225,7 +225,7 @@ trait Tables {
     Oauth2infoRow.tupled((<<[Long], <<[String], <<?[String], <<?[Int], <<?[String], <<[Long]))
   }
   /** Table description of table oauth2info. Objects of this class serve as prototypes for rows in queries. */
-  class Oauth2info(_tableTag: Tag) extends profile.api.Table[Oauth2infoRow](_tableTag, Some("todo"), "oauth2info") {
+  class Oauth2info(_tableTag: Tag) extends profile.api.Table[Oauth2infoRow](_tableTag, Some("fyp"), "oauth2info") {
     def * = (id, accesstoken, tokentype, expiresin, refreshtoken, logininfoid) <> (Oauth2infoRow.tupled, Oauth2infoRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(accesstoken), tokentype, expiresin, refreshtoken, Rep.Some(logininfoid)).shaped.<>({r=>import r._; _1.map(_=> Oauth2infoRow.tupled((_1.get, _2.get, _3, _4, _5, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -257,7 +257,7 @@ trait Tables {
     OpenidattributesRow.tupled((<<[String], <<[String], <<[String]))
   }
   /** Table description of table openidattributes. Objects of this class serve as prototypes for rows in queries. */
-  class Openidattributes(_tableTag: Tag) extends profile.api.Table[OpenidattributesRow](_tableTag, Some("todo"), "openidattributes") {
+  class Openidattributes(_tableTag: Tag) extends profile.api.Table[OpenidattributesRow](_tableTag, Some("fyp"), "openidattributes") {
     def * = (id, key, value) <> (OpenidattributesRow.tupled, OpenidattributesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(key), Rep.Some(value)).shaped.<>({r=>import r._; _1.map(_=> OpenidattributesRow.tupled((_1.get, _2.get, _3.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -282,7 +282,7 @@ trait Tables {
     OpenidinfoRow.tupled((<<[String], <<[Long]))
   }
   /** Table description of table openidinfo. Objects of this class serve as prototypes for rows in queries. */
-  class Openidinfo(_tableTag: Tag) extends profile.api.Table[OpenidinfoRow](_tableTag, Some("todo"), "openidinfo") {
+  class Openidinfo(_tableTag: Tag) extends profile.api.Table[OpenidinfoRow](_tableTag, Some("fyp"), "openidinfo") {
     def * = (id, logininfoid) <> (OpenidinfoRow.tupled, OpenidinfoRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(logininfoid)).shaped.<>({r=>import r._; _1.map(_=> OpenidinfoRow.tupled((_1.get, _2.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -315,7 +315,7 @@ trait Tables {
   }
   /** Table description of table order. Objects of this class serve as prototypes for rows in queries.
    *  NOTE: The following names collided with Scala keywords and were escaped: type */
-  class Order(_tableTag: Tag) extends profile.api.Table[OrderRow](_tableTag, Some("todo"), "order") {
+  class Order(_tableTag: Tag) extends profile.api.Table[OrderRow](_tableTag, Some("fyp"), "order") {
     def * = (orderId, groupId, userId, username, price, `type`, status, createat, weight, bill, paid) <> (OrderRow.tupled, OrderRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(orderId), Rep.Some(groupId), Rep.Some(userId), Rep.Some(username), Rep.Some(price), Rep.Some(`type`), Rep.Some(status), Rep.Some(createat), weight, bill, paid).shaped.<>({r=>import r._; _1.map(_=> OrderRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9, _10, _11)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -359,7 +359,7 @@ trait Tables {
     PasswordinfoRow.tupled((<<[String], <<[String], <<?[String], <<[Long]))
   }
   /** Table description of table passwordinfo. Objects of this class serve as prototypes for rows in queries. */
-  class Passwordinfo(_tableTag: Tag) extends profile.api.Table[PasswordinfoRow](_tableTag, Some("todo"), "passwordinfo") {
+  class Passwordinfo(_tableTag: Tag) extends profile.api.Table[PasswordinfoRow](_tableTag, Some("fyp"), "passwordinfo") {
     def * = (hasher, password, salt, logininfoid) <> (PasswordinfoRow.tupled, PasswordinfoRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(hasher), Rep.Some(password), salt, Rep.Some(logininfoid)).shaped.<>({r=>import r._; _1.map(_=> PasswordinfoRow.tupled((_1.get, _2.get, _3, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -391,7 +391,7 @@ trait Tables {
     PlayEvolutionsRow.tupled((<<[Int], <<[String], <<[java.sql.Timestamp], <<?[String], <<?[String], <<?[String], <<?[String]))
   }
   /** Table description of table play_evolutions. Objects of this class serve as prototypes for rows in queries. */
-  class PlayEvolutions(_tableTag: Tag) extends profile.api.Table[PlayEvolutionsRow](_tableTag, Some("todo"), "play_evolutions") {
+  class PlayEvolutions(_tableTag: Tag) extends profile.api.Table[PlayEvolutionsRow](_tableTag, Some("fyp"), "play_evolutions") {
     def * = (id, hash, appliedAt, applyScript, revertScript, state, lastProblem) <> (PlayEvolutionsRow.tupled, PlayEvolutionsRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(hash), Rep.Some(appliedAt), applyScript, revertScript, state, lastProblem).shaped.<>({r=>import r._; _1.map(_=> PlayEvolutionsRow.tupled((_1.get, _2.get, _3.get, _4, _5, _6, _7)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -425,7 +425,7 @@ trait Tables {
     ProjectRow.tupled((<<[Long], <<[String], <<[String]))
   }
   /** Table description of table project. Objects of this class serve as prototypes for rows in queries. */
-  class Project(_tableTag: Tag) extends profile.api.Table[ProjectRow](_tableTag, Some("todo"), "project") {
+  class Project(_tableTag: Tag) extends profile.api.Table[ProjectRow](_tableTag, Some("fyp"), "project") {
     def * = (id, name, status) <> (ProjectRow.tupled, ProjectRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(name), Rep.Some(status)).shaped.<>({r=>import r._; _1.map(_=> ProjectRow.tupled((_1.get, _2.get, _3.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -452,7 +452,7 @@ trait Tables {
     TaskRow.tupled((<<[Long], <<[String], <<[java.sql.Timestamp], <<[Long]))
   }
   /** Table description of table task. Objects of this class serve as prototypes for rows in queries. */
-  class Task(_tableTag: Tag) extends profile.api.Table[TaskRow](_tableTag, Some("todo"), "task") {
+  class Task(_tableTag: Tag) extends profile.api.Table[TaskRow](_tableTag, Some("fyp"), "task") {
     def * = (id, name, due, projectid) <> (TaskRow.tupled, TaskRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(id), Rep.Some(name), Rep.Some(due), Rep.Some(projectid)).shaped.<>({r=>import r._; _1.map(_=> TaskRow.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -492,7 +492,7 @@ trait Tables {
   }
   /** Table description of table user. Objects of this class serve as prototypes for rows in queries.
    *  NOTE: The following names collided with Scala keywords and were escaped: type */
-  class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("todo"), "user") {
+  class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("fyp"), "user") {
     def * = (userid, firstname, lastname, fullname, email, avatarurl, wechat, `type`, agreement, activate, createat) <> (UserRow.tupled, UserRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(userid), firstname, lastname, fullname, email, avatarurl, wechat, Rep.Some(`type`), Rep.Some(agreement), Rep.Some(activate), Rep.Some(createat)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2, _3, _4, _5, _6, _7, _8.get, _9.get, _10.get, _11.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -535,7 +535,7 @@ trait Tables {
     UserlogininfoRow.tupled((<<[String], <<[Long], <<[java.sql.Timestamp]))
   }
   /** Table description of table userlogininfo. Objects of this class serve as prototypes for rows in queries. */
-  class Userlogininfo(_tableTag: Tag) extends profile.api.Table[UserlogininfoRow](_tableTag, Some("todo"), "userlogininfo") {
+  class Userlogininfo(_tableTag: Tag) extends profile.api.Table[UserlogininfoRow](_tableTag, Some("fyp"), "userlogininfo") {
     def * = (userid, logininfoid, timestamp) <> (UserlogininfoRow.tupled, UserlogininfoRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(userid), Rep.Some(logininfoid), Rep.Some(timestamp)).shaped.<>({r=>import r._; _1.map(_=> UserlogininfoRow.tupled((_1.get, _2.get, _3.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))

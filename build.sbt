@@ -7,7 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, PlayAkkaHttp2Sup
   javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.6" % "runtime"
 )
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.5"
 
 libraryDependencies ++= Seq(
   specs2 % Test,
@@ -52,5 +52,7 @@ javaOptions ++= Seq(
   //"-Dhttps.keyStorePassword=uniweb",
   "-Dconfig.file=conf/application.conf"
 )
+
+resolvers += Resolver.jcenterRepo
 
 fork in Test := true
